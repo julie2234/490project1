@@ -5,9 +5,9 @@ import java.text.*;
 
 
 class AcmeVendingMachine {
+	private static final int NUM_RECIPES = 6;
 
-
-	static Recipe[] recipeArray = new Recipe[6];
+	static Recipe[] recipeArray = new Recipe[NUM_RECIPES];
 	static int units_sug = 0;
 	static int units_mil = 0;
 	static int units_cof = 0;
@@ -164,7 +164,7 @@ class AcmeVendingMachine {
 	
 
 	public static int  checkRecipes() {
-		for(int i = 0; i < 6; i++){ 
+		for(int i = 0; i < NUM_RECIPES; i++){ 
 		if(recipeArray[i].name == "") {
 				return i;
 			}
@@ -181,7 +181,7 @@ class AcmeVendingMachine {
 		//check to see if there is space in array.  returns 13 if space is unavailable
 		empty = checkRecipes();
 		if(empty == 13) {
-			System.out.println("Already 6 recipes made, no more!");
+			System.out.println("Already " + NUM_RECIPES + " recipes made, no more!");
 			System.out.println("");
 			mainMenu();
 		}
@@ -296,12 +296,12 @@ class AcmeVendingMachine {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
 		System.out.println("Select which recipe to delete: ");
-		for(int n = 0; n < 6; n++){
+		for(int n = 0; n < NUM_RECIPES; n++){
 			if(recipeArray[n].name != ""){
 				System.out.println(" " + n + ":  " + recipeArray[n].name);
 			}
 		}
-		System.out.println(" 6:  Cancel");
+		System.out.println(" " + NUM_RECIPES + ":  Cancel");
 		try{
 		try{ 
 			System.out.println("");
@@ -317,10 +317,10 @@ class AcmeVendingMachine {
 		  }
 		} catch (IOException n){}
 		
-		if(num_select == 6){
+		if(num_select == NUM_RECIPES){
 			mainMenu();
 		}
-		if(num_select >5){
+		if(num_select >NUM_RECIPES){
 			System.out.println("Sorry, please choose again.");
 			DeleteRecipe();
 		}
@@ -345,7 +345,7 @@ class AcmeVendingMachine {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
 		System.out.println("Please select item to buy: ");
-		for(int n = 0; n < 6; n++){
+		for(int n = 0; n < NUM_RECIPES; n++){
 			if(recipeArray[n].name != "") {
 			System.out.println(" " + n + ":  " + recipeArray[n].name + "  $  "
 							   + recipeArray[n].price);
@@ -359,7 +359,7 @@ class AcmeVendingMachine {
 			System.out.println("");
 			line = br.readLine();
 			item = Integer.parseInt(line);
-			if(item > 5 || item < 0){
+			if(item > (NUM_RECIPES - 1) || item < 0){
 				System.out.println("Incorrect input, returning to main menu");
 				mainMenu();
 			}
@@ -473,7 +473,7 @@ class AcmeVendingMachine {
 		double percentSold = 0.0;
 		System.out.println("total drinks sold: " + totalDrinksSold);
 		
-		for(int i = 0; i < 6; i++){
+		for(int i = 0; i < NUM_RECIPES; i++){
 			if(recipeArray[i].name != ""){
 				if(totalDrinksSold > 0 ) {
 					percentSold = (((double)recipeArray[i].timesSold/(double)totalDrinksSold)*100);
@@ -564,7 +564,7 @@ class AcmeVendingMachine {
 		System.out.println("");
 		
 		
-		for(int i =0; i<6; i++){
+		for(int i =0; i<NUM_RECIPES; i++){
 			recipeArray[i] = new Recipe();
 		}
 		mainMenu();
