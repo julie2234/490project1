@@ -5,14 +5,12 @@ import java.text.*;
 
 
 class AcmeVendingMachine {
+	private static final String[] INGREDIENTS = { "sugar", "milk", "coffee", "chocolate", "boullion" };
+	private static final int NUM_INGREDIENTS = 5;
 	private static final int NUM_RECIPES = 6;
 
 	static Recipe[] recipeArray = new Recipe[NUM_RECIPES];
-	static int units_sug = 0;
-	static int units_mil = 0;
-	static int units_cof = 0;
-	static int units_cho = 0;
-	static int units_bou = 0;
+	private static Ingredient[] ingredientsInventory;
 	static int i = 0;
 	static double money = 0;
 	static double extra = 0;
@@ -21,40 +19,32 @@ class AcmeVendingMachine {
 	static int totalDrinksSold = 0;
 	
 
-	public void AcmeVendingMachine() {}
+	public AcmeVendingMachine() {
+		ingredientsInventory = new Ingredient[NUM_INGREDIENTS];
+		for (int i = 0; i < NUM_INGREDIENTS; i++) {
+			ingredientsInventory[i] = new Ingredient(INGREDIENTS[i], 0);
+		}
+	}
 
 	public static class Recipe {
 		
 		String name;
 		double price;
-		int sugar;
-		int milk;
-		int coffee;
-		int chocolate;
-		int bouillon;
+		private static Ingredient[] ingredients;
 		int timesSold;
 		
 		
 		public Recipe () {
 			name = "";
 			price = 0.0;
-			sugar = 0;
-			milk = 0;
-			coffee = 0;
-			chocolate = 0;
-			bouillon = 0;
+			ingredients = null;
 			timesSold = 0;
 		}
 		
-		public Recipe (String name, double price, int sugar, int milk, 
-					   int coffee, int chocolate, int bouillon)        {
+		public Recipe (String name, double price, Ingredient[] ingredients)        {
 			this.name = name;
 			this.price = price;
-			this.sugar = sugar;
-			this.milk = milk;
-			this.coffee = coffee;
-			this.chocolate = chocolate;
-			this.bouillon = bouillon;		
+			this.ingredients = ingredients;		
 			timesSold = 0;
 		}
 	
@@ -66,26 +56,19 @@ class AcmeVendingMachine {
 		ObjectInputStream input = null;
 
 		String line = "";
-		int num = 0;
-		int inv_sug;
-		int inv_mil;
-		int inv_cof;
-		int inv_cho;
-		int inv_bou;
 		
 		System.out.println("");
 		System.out.println("");
 				
 		try{
 
-		System.out.println("Enter units of sugar: ");
+		System.out.println("Enter units of " + ingredientsInventory[0].name() + ": ");
 		try{
 		if((line = br.readLine()) == null){
 			System.out.println("Please enter an amount next time, going back to Main Menu");
 			mainMenu();} 
 			else {
-				inv_sug = Integer.parseInt(line);
-				units_sug = units_sug + inv_sug;
+				ingredientsInventory[0].setAmount(ingredientsInventory[0].amount() + Integer.parseInt(line));
 			}
 			} catch (NumberFormatException n) {
 				System.out.println("Please enter an amount next time, going back to Main Menu");
@@ -93,12 +76,11 @@ class AcmeVendingMachine {
 			}
 		
 
-		System.out.println("Enter units of milk: ");
+		System.out.println("Enter units of " + ingredientsInventory[1].name() + ": ");
 		try{
 		if((line = br.readLine()) == null){} 
 			else {
-				inv_mil = Integer.parseInt(line);
-				units_mil += inv_mil;
+				ingredientsInventory[1].setAmount(ingredientsInventory[1].amount() + Integer.parseInt(line));
 			}
 			} catch (NumberFormatException n) {
 				System.out.println("Please enter an amount next time, going back to Main Menu");
@@ -106,12 +88,11 @@ class AcmeVendingMachine {
 			}
 		
 
-		System.out.println("Enter units of coffee: ");
+		System.out.println("Enter units of " + ingredientsInventory[2].name() + ": ");
 		try{
 		if((line = br.readLine()) == null){} 
 			else {
-				inv_cof = Integer.parseInt(line);
-				units_cof += inv_cof;
+				ingredientsInventory[2].setAmount(ingredientsInventory[2].amount() + Integer.parseInt(line));
 			}
 			} catch (NumberFormatException n) {
 				System.out.println("Please enter an amount next time, going back to Main Menu");
@@ -119,24 +100,22 @@ class AcmeVendingMachine {
 			}
 		
 
-		System.out.println("Enter units of chocolate: ");
+		System.out.println("Enter units of " + ingredientsInventory[3].name() + ": ");
 		try{
 		if((line = br.readLine()) == null){} 
 			else {
-				inv_cho = Integer.parseInt(line);
-				units_cho += inv_cho;
+				ingredientsInventory[3].setAmount(ingredientsInventory[3].amount() + Integer.parseInt(line));
 			}
 			} catch (NumberFormatException n) {
 				System.out.println("Please enter an amount next time, going back to Main Menu");
 				mainMenu();
 			}
 
-		System.out.println("Enter units of bouillon: ");
+		System.out.println("Enter units of " + ingredientsInventory[4].name() + ": ");
 		try{
 		if((line = br.readLine()) == null){} 
 			else {
-				inv_bou = Integer.parseInt(line);
-				units_bou += inv_bou;
+				ingredientsInventory[4].setAmount(ingredientsInventory[4].amount() + Integer.parseInt(line));
 			}
 			} catch (NumberFormatException n) {
 				System.out.println("Please enter an amount next time, going back to Main Menu");
@@ -151,14 +130,10 @@ class AcmeVendingMachine {
 	
 
 	public static void CheckInventory () {
-		System.out.println("");
-		System.out.println("Sugar: " + units_sug);
-		System.out.println("Milk: " + units_mil);
-		System.out.println("Coffee: " + units_cof);
-		System.out.println("Chocolate: " + units_cho);
-		System.out.println("Bouillon: " + units_bou);
-		System.out.println("");
-		
+		for (int i = 0; i < NUM_INGREDIENTS; i++) {
+			System.out.println(ingredientsInventory[i].name() + ": " + ingredientsInventory[i].amount());
+		}
+		System.out.println();
 		mainMenu();
 	} 
 	
@@ -192,11 +167,10 @@ class AcmeVendingMachine {
 		String temp = "";		//holds name
 		int numtemp = 0;		//error checking for integer input
 		double rec_price = 0.0;
-		int rec_sugar = 0;
-		int rec_milk = 0;
-		int rec_coffee = 0;
-		int rec_chocolate = 0;
-		int rec_bouillon = 0;
+		Ingredient[] rec_ingredients = new Ingredient[NUM_INGREDIENTS];
+		for (int i = 0; i < NUM_INGREDIENTS; i++) {
+			rec_ingredients[i] = new Ingredient(INGREDIENTS[i], 0);
+		}
 		try{
 			//get name
 			System.out.println("");
@@ -223,12 +197,12 @@ class AcmeVendingMachine {
 			}
 				
 				
-
-			System.out.println("Enter units of sugar:");
+			//get sugar
+			System.out.println("Enter units of " + ingredientsInventory[0].name() + ":");
 			try{
 			if((temp = br.readLine()) == null){} 
 			else {
-				rec_sugar = Integer.parseInt(temp);
+				rec_ingredients[0].setAmount(Integer.parseInt(temp));
 			}
 			} catch (NumberFormatException n) {
 				System.out.println("Please enter an amount next time, going back to Main Menu");
@@ -237,53 +211,58 @@ class AcmeVendingMachine {
 			
 			
 			//get milk
-			System.out.println("Enter units of milk:");
-			numtemp = br.read();
-			if( Character.isDigit((char)numtemp ) ) {
-				rec_milk = (numtemp-48);
-			} else {
+			System.out.println("Enter units of " + ingredientsInventory[1].name() + ":");
+			try{
+			if((temp = br.readLine()) == null){} 
+			else {
+				rec_ingredients[1].setAmount(Integer.parseInt(temp));
+			}
+			} catch (NumberFormatException n) {
 				System.out.println("Please enter an amount next time, going back to Main Menu");
 				mainMenu();
 			}
-			temp = br.readLine();
 			//get coffee
-			System.out.println("Enter units of coffee:");
-			numtemp = br.read();
-			if( Character.isDigit((char)numtemp ) ) {
-				rec_coffee = (numtemp-48);
-			} else {
+			System.out.println("Enter units of " + ingredientsInventory[2].name() + ":");
+			try{
+			if((temp = br.readLine()) == null){} 
+			else {
+				rec_ingredients[2].setAmount(Integer.parseInt(temp));
+			}
+			} catch (NumberFormatException n) {
 				System.out.println("Please enter an amount next time, going back to Main Menu");
 				mainMenu();
 			}
-			temp = br.readLine();
 
-			System.out.println("Enter units of chocolate:");
-			numtemp = br.read();
-			if( Character.isDigit((char)numtemp) ) {
-				rec_chocolate = (numtemp-48);
-			} else {
+			System.out.println("Enter units of " + ingredientsInventory[3].name() + ":");
+			try{
+			if((temp = br.readLine()) == null){} 
+			else {
+				rec_ingredients[3].setAmount(Integer.parseInt(temp));
+			}
+			} catch (NumberFormatException n) {
 				System.out.println("Please enter an amount next time, going back to Main Menu");
 				mainMenu();
 			}
-			temp = br.readLine();
 
-			System.out.println("Enter units of bouillon:");
-			numtemp = br.read();
-			if( Character.isDigit((char)numtemp) ) {
-				rec_bouillon = (numtemp-48);
-			} else {
+			System.out.println("Enter units of " + ingredientsInventory[4].name() + ":");
+			try{
+			if((temp = br.readLine()) == null){} 
+			else {
+				rec_ingredients[4].setAmount(Integer.parseInt(temp));
+			}
+			} catch (NumberFormatException n) {
 				System.out.println("Please enter an amount next time, going back to Main Menu");
 				mainMenu();
 			}
-			temp = br.readLine();
 
-			System.out.println("Name: " + rec_name + "\n  Price: " + rec_price + "\n  Sugar: " + rec_sugar
-							   + "\n  Milk: " + rec_milk + "\n  Coffee: " + rec_coffee + "\n  Chocolate: " +
-							   rec_chocolate + "\n  Bouillon: " + rec_bouillon);
+			System.out.println("Name: " + rec_name + "\n  Price: " + rec_price);
+			for (int i = 0; i < NUM_INGREDIENTS; i++) {
+				System.out.println(rec_ingredients[i].name() + ": " + rec_ingredients[i].amount());
+			}
+			System.out.println();
 		}catch (IOException e) {}
 		
-		recipeArray[i] = new Recipe(rec_name, rec_price, rec_sugar, rec_milk, rec_coffee, 
-									rec_chocolate, rec_bouillon);
+		recipeArray[i] = new Recipe(rec_name, rec_price, rec_ingredients);
 		i++;
 		
 		mainMenu();
@@ -320,7 +299,7 @@ class AcmeVendingMachine {
 		if(num_select == NUM_RECIPES){
 			mainMenu();
 		}
-		if(num_select >NUM_RECIPES){
+		if(num_select > (NUM_RECIPES - 1)){
 			System.out.println("Sorry, please choose again.");
 			DeleteRecipe();
 		}
@@ -388,11 +367,12 @@ class AcmeVendingMachine {
 		
 		try{
 		try{
-			if(recipeArray[item].sugar <= units_sug && 
-			   recipeArray[item].milk <= units_mil &&
-			   recipeArray[item].coffee <= units_cof &&
-			   recipeArray[item].chocolate <= units_cho &&
-			   recipeArray[item].bouillon <= units_bou){//
+			
+			if(recipeArray[item].ingredients[0].amount() <= ingredientsInventory[0].amount() && 
+			   recipeArray[item].ingredients[1].amount() <= ingredientsInventory[1].amount() &&
+			   recipeArray[item].ingredients[2].amount() <= ingredientsInventory[2].amount() &&
+			   recipeArray[item].ingredients[3].amount() <= ingredientsInventory[3].amount() &&
+			   recipeArray[item].ingredients[4].amount() <= ingredientsInventory[4].amount()){//
 				//gets money
 				difference = money - recipeArray[item].price;
 				
@@ -458,11 +438,9 @@ class AcmeVendingMachine {
 		}
 		}catch(IOException e) {}
 		
-		units_sug = units_sug - recipeArray[item].sugar;
-		units_mil = units_mil - recipeArray[item].milk;
-		units_cof = units_cof - recipeArray[item].coffee;
-		units_cho = units_cho - recipeArray[item].chocolate;
-		units_bou = units_bou - recipeArray[item].bouillon;
+		for (int i = 0; i < NUM_INGREDIENTS; i++) {
+			ingredientsInventory[i].setAmount(ingredientsInventory[i].amount() - recipeArray[item].ingredients[i].amount());
+		}
 		
 		System.out.println("Thank You.");
 		mainMenu();
@@ -551,6 +529,11 @@ class AcmeVendingMachine {
 	
 	//the main function; it sets up the array to hold recipes.
 	public static void main (String[] arg) {
+		AcmeVendingMachine vendingMachine = new AcmeVendingMachine();
+		for(int i =0; i<NUM_RECIPES; i++){
+			recipeArray[i] = new Recipe();
+		}
+		
 		System.out.println("");
 		System.out.println("");
 		System.out.println("");
@@ -562,15 +545,7 @@ class AcmeVendingMachine {
 		System.out.println("");
 		System.out.println("");
 		System.out.println("");
-		
-		
-		for(int i =0; i<NUM_RECIPES; i++){
-			recipeArray[i] = new Recipe();
-		}
-		mainMenu();
-		
-		
-		
+		mainMenu();	
 	}
 	
 	
