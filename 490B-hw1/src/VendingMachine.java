@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class VendingMachine {
 	private static final String[] INGREDIENTS = { "sugar", "milk", "coffee", "chocolate", "boullion" };
@@ -23,6 +21,17 @@ public class VendingMachine {
 
 	public static void main(String[] args) {
 		VendingMachine machine = new VendingMachine();
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("                     ACME VENDING MACHINE            ");
+		System.out.println("                          version 1.2                ");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
 		mainMenu();
 	}
 
@@ -96,7 +105,12 @@ public class VendingMachine {
 					mainMenu();
 				}
 				p.setIngredients(addIngredients());
-				products[currentNumOfProducts] = p;
+				for (int i = 0; i < NUM_PRODUCTS; i++) {
+					if (products[i] == null) {
+						products[i] = p;
+						break;
+					}
+				}
 				currentNumOfProducts++;
 				System.out.println("name: " + p.name() + "\nprice: " + p.price());
 				for (int j = 0; j < NUM_INGREDIENTS; j++) {
@@ -167,6 +181,7 @@ public class VendingMachine {
 			mainMenu();
 		}
 		products[selection] = null;
+		currentNumOfProducts--;
 		System.out.println("\nProduct deleted.\n");
 		mainMenu();
 	}
@@ -232,7 +247,7 @@ public class VendingMachine {
 				correctPayment(difference, p);
 			}
 			if(difference < 0) {
-				System.out.println("Insufficient money deposited. Please deposit " + difference);
+				System.out.println("Insufficient money deposited. Please deposit " + (difference * (-1)));
 				System.out.println("Please enter amount:  ");
 				System.out.print("$  ");
 				num = br.readLine();
