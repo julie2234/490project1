@@ -53,7 +53,7 @@ public class VendingMachine {
 			try {
 				int selection = Integer.parseInt(br.readLine());
 				switch (selection) {
-				case 1 : addProduct();
+				case 1 : addProductPrompt();
 						 break;
 				case 2 : deleteProduct();
 						 break;
@@ -77,7 +77,7 @@ public class VendingMachine {
 		}
 	}
 
-	public static void addProduct() {
+	public static void addProductPrompt() {
 		if (currentNumOfProducts == NUM_PRODUCTS) {
 			System.out.println("Already " + NUM_PRODUCTS + " products, no more!");
 			System.out.println("");
@@ -105,13 +105,7 @@ public class VendingMachine {
 					mainMenu();
 				}
 				p.setIngredients(addIngredients());
-				for (int i = 0; i < NUM_PRODUCTS; i++) {
-					if (products[i] == null) {
-						products[i] = p;
-						break;
-					}
-				}
-				currentNumOfProducts++;
+				addProduct(p);
 				System.out.println("name: " + p.name() + "\nprice: " + p.price());
 				for (int j = 0; j < NUM_INGREDIENTS; j++) {
 					System.out.println(p.ingredients()[j].name() + ": " + p.ingredients()[j].amount());
@@ -121,6 +115,20 @@ public class VendingMachine {
 		}
 		mainMenu();
 	}
+	
+	private static void addProduct(Product p) {
+		if (currentNumOfProducts == NUM_PRODUCTS) {
+			for (int i = 0; i < NUM_PRODUCTS; i++) {
+				if (products[i] == null) {
+					products[i] = p;
+					break;
+				}
+			}
+			currentNumOfProducts++;
+		}
+	}
+	
+	
 	
 	private static Ingredient[] addIngredients() {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
