@@ -115,6 +115,29 @@ public class VendingMachineTests {
 		assertEquals(machine.getProducts()[0].timesSold(), 6);
 		assertEquals(machine.getTotalProductsSold(), 1);
 	}
+	
+	/**
+	 * Test adds a product, adds less ingredients than the product needs to the inventory,
+	 * and tries to buy the product. Verifies the ingredients inventory isn't decreased,
+	 * verifies the product times sold and total products sold isn't incremented.
+	 */
+	@Test
+	public void testBuyProductNotEnoughInventory() {
+		Ingredient[] ingredientsForProduct = new Ingredient[VendingMachine.NUM_INGREDIENTS];
+		for (int i = 0; i < VendingMachine.NUM_INGREDIENTS; i++) {
+			ingredientsForProduct[i] = new Ingredient(VendingMachine.INGREDIENTS[i], 2);
+		}
+		Product p = new Product("mocha", 3.00, 5, ingredientsForProduct);
+		machine.addProduct(p);
+		addSomeIngredientsToInventory(1);
+		machine.sellProduct(p);
+		Ingredient[] ingredientsInInventory = machine.getIngredientsInventory();
+		for (int i = 0; i < VendingMachine.NUM_INGREDIENTS; i++) {
+			assertEquals(ingredientsInInventory[i].amount(), 1);
+		}
+		assertEquals(machine.getProducts()[0].timesSold(), 5);
+		assertEquals(machine.getTotalProductsSold(), 0);
+	}
 
 	/**
 	 * Test checks that the initial inventory of each ingredient is zero.

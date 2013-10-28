@@ -52,11 +52,13 @@ public class VendingMachine {
 	}
 	
 	public void sellProduct(Product p) {
-		for (int i = 0; i < NUM_INGREDIENTS; i++) {
-			ingredientsInventory[i].setAmount(ingredientsInventory[i].amount() - p.ingredients()[i].amount());
+		if (haveIngredientsInInventory(p.ingredients())) {
+			for (int i = 0; i < NUM_INGREDIENTS; i++) {
+				ingredientsInventory[i].setAmount(ingredientsInventory[i].amount() - p.ingredients()[i].amount());
+			}
+			p.setTimesSold(p.timesSold() + 1);
+			totalProductsSold++;
 		}
-		p.setTimesSold(p.timesSold() + 1);
-		totalProductsSold++;
 	}
 	
 	public boolean haveIngredientsInInventory(Ingredient[] ingredients) {
