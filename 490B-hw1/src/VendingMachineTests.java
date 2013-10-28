@@ -3,6 +3,11 @@ import java.util.Random;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @author Julie Impola, Paula Fiddi
+ * 
+ * Tests for the VendingMachine class.
+ */
 public class VendingMachineTests {
 	private static Product[] testProducts = new Product[7];
 	private static VendingMachine machine;

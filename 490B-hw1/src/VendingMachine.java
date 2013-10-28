@@ -1,3 +1,8 @@
+/**
+ * @author Julie Impola, Paula Fiddi
+ * 
+ * Vending machine that holds products and an inventory of ingredients.
+ */
 public class VendingMachine {
 	public static final String[] INGREDIENTS = { "sugar", "milk", "coffee", "chocolate", "boullion" };
 	public static final int NUM_INGREDIENTS = 5;
@@ -31,14 +36,18 @@ public class VendingMachine {
 	
 	public void deleteProduct(int selection) {
 		if (selection >= 0 && selection < NUM_PRODUCTS) {
-			products[selection] = null;
-			currentNumOfProducts--;
+			if (products[selection] != null) {
+				products[selection] = null;
+				currentNumOfProducts--;
+			}
 		}
 	}
 	
 	public void increaseIngredientsInventory(Ingredient[] ingredientAmountsToAdd) {
-		for (int i = 0; i < NUM_INGREDIENTS; i++) {
-			ingredientsInventory[i].setAmount(ingredientsInventory[i].amount() + ingredientAmountsToAdd[i].amount());
+		if (ingredientAmountsToAdd.length == NUM_INGREDIENTS) {
+			for (int i = 0; i < NUM_INGREDIENTS; i++) {
+				ingredientsInventory[i].setAmount(ingredientsInventory[i].amount() + ingredientAmountsToAdd[i].amount());
+			}
 		}
 	}
 	
