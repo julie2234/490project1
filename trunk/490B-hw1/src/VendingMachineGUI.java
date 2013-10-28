@@ -2,7 +2,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-
+/**
+ * @author Julie Impola, Paula Fiddi
+ * GUI for a VendingMachine object. Prints to the console and prompts for user input.
+ */
 public class VendingMachineGUI {
 	private static VendingMachine machine;
 	

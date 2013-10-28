@@ -1,4 +1,7 @@
-
+/**
+ * @author Julie Impola, Paula Fiddi
+ * 
+ */
 public class Product {
 	private String name;
 	private double price;

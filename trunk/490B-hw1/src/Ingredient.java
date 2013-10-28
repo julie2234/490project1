@@ -1,4 +1,7 @@
-
+/**
+ * @author Julie Impola, Paula Fiddi
+ * 
+ */
 public class Ingredient {
 	private String name;
 	private int amount;
